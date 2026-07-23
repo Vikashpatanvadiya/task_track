@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Premium Minimalist Palette - Light Mode */
+  --background: 40 20% 99%;      /* Warm white/cream */
+  --foreground: 240 10% 3.9%;    /* Soft black */
+  
+  --card: 0 0% 100%;             /* Pure white */
+  --card-foreground: 240 10% 3.9%;
+  
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+  
+  --primary: 240 5.9% 10%;       /* Nearly black for primary actions */
+  --primary-foreground: 0 0% 98%;
+  
+  --secondary: 240 4.8% 95.9%;   /* Very light gray for secondary backgrounds */
+  --secondary-foreground: 240 5.9% 10%;
+  
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  
+  --accent: 40 20% 97%;          /* Subtle warm accent */
+  --accent-foreground: 240 5.9% 10%;
+  
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 240 5.9% 10%;
+  
+  --radius: 0.75rem;
+
+  /* Chart Colors */
+  --chart-1: 240 5% 20%;
+  --chart-2: 240 5% 35%;
+  --chart-3: 240 5% 50%;
+  --chart-4: 240 5% 65%;
+  --chart-5: 240 5% 80%;
+
+  /* Fonts */
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+.dark {
+  /* Premium Minimalist Palette - Dark Mode */
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  
+  --card: 240 10% 5.9%;
+  --card-foreground: 0 0% 98%;
+  
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  
+  --primary: 0 0% 98%;
+  --primary-foreground: 240 5.9% 10%;
+  
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 240 4.9% 83.9%;
+  
+  --chart-1: 0 0% 90%;
+  --chart-2: 0 0% 70%;
+  --chart-3: 0 0% 50%;
+  --chart-4: 0 0% 30%;
+  --chart-5: 0 0% 10%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased font-sans selection:bg-primary/10 selection:text-primary;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif tracking-tight text-foreground;
+  }
+}
+
+/* Custom Scrollbar for a cleaner look */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/20 rounded-full hover:bg-muted-foreground/40 transition-colors;
+}
+
+/* Prose/Typography overrides for the editor feel */
+.prose-editor {
+  @apply max-w-none text-lg leading-relaxed text-foreground/90;
+}
+.prose-editor p {
+  @apply mb-6;
+}
+.prose-editor h1 {
+  @apply text-4xl font-serif font-bold mb-8 mt-12;
+}
+.prose-editor blockquote {
+  @apply border-l-4 border-primary/20 pl-6 py-2 italic text-muted-foreground my-8;
+}
+
+/* Glassmorphism utilities */
+.glass {
+  @apply bg-white/70 dark:bg-black/70 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-sm;
+}
+.glass-card {
+  @apply bg-card/80 backdrop-blur-sm border border-border/50 shadow-sm hover:shadow-md transition-all duration-300;
+}
