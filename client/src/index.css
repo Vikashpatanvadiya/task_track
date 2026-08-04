@@ -98,6 +98,38 @@
   }
 }
 
+/* Main content shell.
+   Replaces `pt-16 md:pt-0 p-4 md:p-8 lg:p-12` and additionally clears the
+   device safe areas (notch / home indicator), which become visible once the
+   app is installed to the home screen and runs full screen. */
+@layer components {
+  .app-main {
+    padding-top: calc(4rem + env(safe-area-inset-top));
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    padding-left: calc(1rem + env(safe-area-inset-left));
+    padding-right: calc(1rem + env(safe-area-inset-right));
+  }
+
+  @media (min-width: 768px) {
+    .app-main {
+      padding: 2rem;
+      padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .app-main {
+      padding: 3rem;
+      padding-bottom: calc(3rem + env(safe-area-inset-bottom));
+    }
+  }
+}
+
+/* Fixed mobile header sits under the status bar in standalone mode. */
+.mobile-header {
+  padding-top: calc(0.75rem + env(safe-area-inset-top));
+}
+
 /* Custom Scrollbar for a cleaner look */
 ::-webkit-scrollbar {
   width: 8px;

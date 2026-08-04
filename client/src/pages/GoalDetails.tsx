@@ -76,7 +76,7 @@ export default function GoalDetails() {
     return (
         <div className="flex min-h-screen bg-background">
             <Sidebar />
-            <main className="flex-1 md:ml-64 p-4 md:p-8 lg:p-12 overflow-y-auto">
+            <main className="flex-1 md:ml-64 app-main overflow-y-auto">
                 <div className="max-w-3xl mx-auto space-y-8">
 
                     <Button variant="ghost" size="sm" className="gap-2 -ml-2 text-muted-foreground" asChild>

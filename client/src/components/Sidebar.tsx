@@ -66,7 +66,7 @@ export function Sidebar() {
   return (
     <>
       {/* Mobile Header */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-card border-b border-border px-4 py-3 flex items-center justify-between">
+      <div className="mobile-header md:hidden fixed top-0 left-0 right-0 z-50 bg-card border-b border-border px-4 py-3 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-primary">Bansi.R</h1>
         </div>
