@@ -59,6 +59,27 @@ async function buildAll() {
     external: externals,
     logLevel: "info",
   });
+
+  // The Vercel function. Bundled fully self-contained — no relative imports
+  // and no node_modules lookups at runtime — because the platform bundler does
+  // not resolve this project's imports into server/ or the @shared alias.
+  // api/index.js just re-exports this file's default export.
+  console.log("building vercel function...");
+  await esbuild({
+    entryPoints: ["server/vercel.ts"],
+    platform: "node",
+    bundle: true,
+    format: "cjs",
+    outfile: "api/_handler.cjs",
+    define: {
+      "process.env.NODE_ENV": '"production"',
+    },
+    minify: true,
+    // Optional native addons. pg and ws each fall back to pure JS when these
+    // are absent, but esbuild would fail to resolve them at build time.
+    external: ["pg-native", "bufferutil", "utf-8-validate"],
+    logLevel: "info",
+  });
 }
 
 buildAll().catch((err) => {
