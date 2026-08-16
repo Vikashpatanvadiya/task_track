@@ -31,7 +31,7 @@
     },
     {
       "source": "/(.*)",
-      "destination": "/api/index"
+      "destination": "/index.html"
     }
   ],
   "env": {

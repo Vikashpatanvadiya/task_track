@@ -65,7 +65,12 @@ let routesInitialized = false;
 async function initializeRoutes() {
   if (!routesInitialized) {
     await registerRoutes(httpServer, app);
-    
+
+    // Unmatched /api paths are a 404, not a fall-through to nothing.
+    app.use("/api/{*path}", (_req, res) => {
+      res.status(404).json({ message: "Not found" });
+    });
+
     app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
       const status = err.status || err.statusCode || 500;
       const message = err.message || "Internal Server Error";
@@ -79,18 +84,25 @@ async function initializeRoutes() {
       return res.status(status).json({ message });
     });
 
-    // Serve static files in production
-    if (process.env.NODE_ENV === "production") {
-      const { serveStatic } = await import("../server/static");
-      serveStatic(app);
-    }
-    
+    // No static serving here. Vercel serves the client build straight from
+    // the output directory, and vercel.json rewrites unknown paths to
+    // /index.html for the SPA — the function only answers /api.
+
     routesInitialized = true;
   }
 }
 
 // Vercel serverless function handler
 export default async function handler(req: any, res: any) {
-  await initializeRoutes();
+  try {
+    await initializeRoutes();
+  } catch (err: any) {
+    // Startup failures (a missing DATABASE_URL, for example) would otherwise
+    // surface as an opaque FUNCTION_INVOCATION_FAILED with nothing to go on.
+    console.error("Startup failed:", err);
+    res.statusCode = 500;
+    res.setHeader("Content-Type", "application/json");
+    return res.end(JSON.stringify({ message: `Startup failed: ${err?.message ?? err}` }));
+  }
   return app(req, res);
 }
