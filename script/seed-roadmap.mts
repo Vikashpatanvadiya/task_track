@@ -11,7 +11,7 @@
 import "dotenv/config";
 import { pool } from "../server/db";
 import { syncRoadmap } from "../server/roadmap";
-import { buildRoadmap, ROADMAP_START } from "@shared/roadmap";
+import { buildRoadmap, ROADMAP_START } from "../shared/roadmap";
 
 const USER_ID = "bansi";
 const dryRun = process.argv.includes("--dry-run");

@@ -9,7 +9,7 @@ import {
   type DiaryEntry,
   type Goal,
   type Todo,
-} from "@shared/schema";
+} from "../shared/schema";
 import { eq, and, desc, gte, lte } from "drizzle-orm";
 
 export interface IStorage {

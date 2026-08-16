@@ -1,6 +1,6 @@
 import { db } from "./db";
-import { goals, todos, users } from "@shared/schema";
-import { buildRoadmap, todoTimestamp, ROADMAP_GOAL } from "@shared/roadmap";
+import { goals, todos, users } from "../shared/schema";
+import { buildRoadmap, todoTimestamp, ROADMAP_GOAL } from "../shared/roadmap";
 import { and, eq, inArray } from "drizzle-orm";
 
 /**

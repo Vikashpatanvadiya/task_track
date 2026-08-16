@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import { db, pool } from "./db";
-import { users } from "@shared/schema";
+import { users } from "../shared/schema";
 import { eq } from "drizzle-orm";
 
 declare module "express-session" {

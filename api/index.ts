@@ -1,6 +1,9 @@
 import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes } from "../server/routes";
 import { createServer } from "http";
+// `../server/routes` is imported lazily inside initializeRoutes. It reaches
+// server/db.ts, which throws when DATABASE_URL is unset — at module load, that
+// kills the function before any handler runs and Vercel can only report an
+// opaque FUNCTION_INVOCATION_FAILED. Deferring it makes the error catchable.
 
 const app = express();
 const httpServer = createServer(app);
@@ -64,6 +67,7 @@ let routesInitialized = false;
 
 async function initializeRoutes() {
   if (!routesInitialized) {
+    const { registerRoutes } = await import("../server/routes");
     await registerRoutes(httpServer, app);
 
     // Unmatched /api paths are a 404, not a fall-through to nothing.
