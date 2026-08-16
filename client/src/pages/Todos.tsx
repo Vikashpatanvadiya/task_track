@@ -53,7 +53,7 @@ export default function Todos() {
     await createTodo.mutateAsync({
       title: newTodo,
       isCompleted: false,
-      date: selectedDate.toISOString(),
+      date: dateString, // a calendar day, so it can't drift across time zones
       priority,
       goalId: selectedGoal === "no-goal" ? null : Number(selectedGoal),
     });

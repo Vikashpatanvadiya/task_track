@@ -155,7 +155,7 @@ export default function Roadmap() {
             </p>
           </div>
 
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             <Stat icon={Code2} value={`${totals.coding} h`} label="Coding time booked" />
             <Stat icon={GraduationCap} value={`${totals.lectures}`} label="Cohort lecture blocks" />
             <Stat icon={Dumbbell} value="100 h" label="Exercise, 1 h a day" />

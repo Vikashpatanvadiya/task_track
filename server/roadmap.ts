@@ -43,12 +43,17 @@ export async function getRoadmapStatus(userId: string) {
 }
 
 /**
- * Makes the task list mirror the plan. A task is inserted only when no todo
- * with the same title already sits on that date under the goal, so re-running
- * never duplicates. Scheduled tasks that have dropped out of the plan are
- * removed. Tasks added by hand carry no time prefix and are never touched.
+ * Adds the plan to the task list. A task is inserted only when no todo with
+ * the same title already sits on that date under the goal, so re-running never
+ * duplicates.
+ *
+ * Deleting is opt-in. `prune` drops scheduled tasks that are no longer in the
+ * plan, which is right for a one-off cleanup from the command line but wrong
+ * for a button: a task that has been reworded by hand looks exactly like a
+ * task that left the plan, and losing someone's edit is far worse than leaving
+ * a stale row behind.
  */
-export async function syncRoadmap(userId: string) {
+export async function syncRoadmap(userId: string, { prune = false } = {}) {
   const plan = buildRoadmap();
   const totalTasks = plan.reduce((n, day) => n + day.tasks.length, 0);
 
@@ -83,9 +88,11 @@ export async function syncRoadmap(userId: string) {
     plan.flatMap((day) => day.tasks.map((task) => `${day.date}|${task.title}`))
   );
 
-  const stale = existing
-    .filter((t) => SCHEDULED.test(t.title) && !wanted.has(keyOf(t.date, t.title)))
-    .map((t) => t.id);
+  const stale = prune
+    ? existing
+        .filter((t) => SCHEDULED.test(t.title) && !wanted.has(keyOf(t.date, t.title)))
+        .map((t) => t.id)
+    : [];
 
   for (let i = 0; i < stale.length; i += 200) {
     await db.delete(todos).where(inArray(todos.id, stale.slice(i, i + 200)));

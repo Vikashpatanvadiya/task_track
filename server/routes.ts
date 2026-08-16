@@ -7,6 +7,7 @@ import { diaryEntries, goals, todos } from "../shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 import { getRoadmapStatus, syncRoadmap } from "./roadmap";
+import { calendarDay } from "../shared/date";
 
 async function seedDatabase() {
   // Check if we have any users, if not, we can't really seed data that belongs to a user easily
@@ -162,7 +163,7 @@ export async function registerRoutes(
       const input = api.todos.create.input.parse(req.body);
       const todoData = {
         ...input,
-        date: input.date ? new Date(input.date) : undefined,
+        date: input.date ? calendarDay(input.date) : undefined,
         userId,
       };
       const todo = await storage.createTodo(todoData);
@@ -181,7 +182,7 @@ export async function registerRoutes(
 
       const input = api.todos.update.input.parse(req.body);
       const updates = { ...input };
-      if (input.date) updates.date = new Date(input.date);
+      if (input.date) updates.date = calendarDay(input.date);
 
       const updated = await storage.updateTodo(id, updates);
       res.json(updated);

@@ -11,6 +11,7 @@ import {
   type Todo,
 } from "../shared/schema";
 import { eq, and, desc, gte, lte } from "drizzle-orm";
+import { dayBounds } from "../shared/date";
 
 export interface IStorage {
   // Diary
@@ -91,24 +92,18 @@ export class DatabaseStorage implements IStorage {
   // Todos
   async getTodos(userId: string, date?: string): Promise<Todo[]> {
     if (date) {
-      // Filter by specific date (start and end of day)
-      const startOfDay = new Date(date);
-      startOfDay.setHours(0, 0, 0, 0);
-      
-      const endOfDay = new Date(date);
-      endOfDay.setHours(23, 59, 59, 999);
-      
-      console.log('Filtering todos for date:', date);
-      console.log('Start:', startOfDay, 'End:', endOfDay);
-      
+      // The window is built in UTC, not the server's local zone, so a task
+      // lands on the same calendar day whether this runs here or on Vercel.
+      const { start, end } = dayBounds(date);
+
       return await db
         .select()
         .from(todos)
         .where(
           and(
             eq(todos.userId, userId),
-            gte(todos.date, startOfDay),
-            lte(todos.date, endOfDay)
+            gte(todos.date, start),
+            lte(todos.date, end)
           )
         )
         .orderBy(desc(todos.createdAt));

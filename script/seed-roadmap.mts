@@ -3,6 +3,7 @@
  *
  *   npx tsx script/seed-roadmap.mts --dry-run   # print the plan, write nothing
  *   npx tsx script/seed-roadmap.mts             # create the goal + all tasks
+ *   npx tsx script/seed-roadmap.mts --prune     # also drop tasks no longer in the plan
  *
  * Safe to re-run: it makes the task list mirror the plan. New tasks are added,
  * scheduled tasks that have left the plan are removed, and anything you typed
@@ -49,7 +50,7 @@ async function main() {
   if (dryRun) {
     console.log("\nDry run — nothing written.");
   } else {
-    const result = await syncRoadmap(USER_ID);
+    const result = await syncRoadmap(USER_ID, { prune: process.argv.includes("--prune") });
     console.log(
       `\nGoal #${result.goalId} — ${result.inserted} added, ${result.removed} removed, ` +
         `${result.skipped} already present. Plan starts ${ROADMAP_START}.`

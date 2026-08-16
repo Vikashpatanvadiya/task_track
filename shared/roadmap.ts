@@ -16,6 +16,7 @@
  * internship work lands in the task list: exercise, lectures, builds, DSA,
  * ships and career moves.
  */
+import { calendarDay } from "./date";
 
 export const ROADMAP_GOAL = {
   title: "Paid Internship in Next 100 Days",
@@ -867,11 +868,7 @@ export function buildRoadmap(): RoadmapDay[] {
   return days;
 }
 
-/**
- * The timestamp stored on a todo. Noon UTC sits safely inside the calendar day
- * whether the server reads it in UTC or in IST, so a task never leaks into the
- * neighbouring day's list.
- */
+/** The instant stored on a todo for a given calendar day. */
 export function todoTimestamp(date: string): string {
-  return `${date}T12:00:00.000Z`;
+  return calendarDay(date).toISOString();
 }

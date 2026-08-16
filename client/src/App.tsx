@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { InstallPrompt } from "@/components/InstallPrompt";
 import { UpdatePrompt } from "@/components/UpdatePrompt";
+import { Onboarding } from "@/components/Onboarding";
 
 import Home from "@/pages/Home";
 import DiaryList from "@/pages/DiaryList";
@@ -42,6 +43,7 @@ function App() {
         <UpdatePrompt />
         <Router />
         <InstallPrompt />
+        <Onboarding />
       </TooltipProvider>
     </QueryClientProvider>
   );

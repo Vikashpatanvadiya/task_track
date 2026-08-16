@@ -78,7 +78,7 @@ export function InstallPrompt() {
 
   return (
     <div
-      className="fixed inset-x-0 bottom-0 z-[60] p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] pointer-events-none"
+      className="fixed inset-x-0 bottom-0 z-[60] p-4 pb-[calc(5.25rem+env(safe-area-inset-bottom))] md:pb-[calc(1rem+env(safe-area-inset-bottom))] pointer-events-none"
       role="dialog"
       aria-label="Install Bansi.R"
     >

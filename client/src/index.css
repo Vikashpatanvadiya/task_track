@@ -104,8 +104,9 @@
    app is installed to the home screen and runs full screen. */
 @layer components {
   .app-main {
-    padding-top: calc(4rem + env(safe-area-inset-top));
-    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    /* Clears the app bar above and the tab bar below. */
+    padding-top: calc(3.25rem + env(safe-area-inset-top));
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
     padding-left: calc(1rem + env(safe-area-inset-left));
     padding-right: calc(1rem + env(safe-area-inset-right));
   }
@@ -123,11 +124,81 @@
       padding-bottom: calc(3rem + env(safe-area-inset-bottom));
     }
   }
+
+  /* Compact app bar, translucent like a native title bar. */
+  .mobile-appbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    height: calc(3.25rem + env(safe-area-inset-top));
+    padding: 0 1rem;
+    padding-top: env(safe-area-inset-top);
+    background: hsl(var(--background) / 0.82);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid hsl(var(--border) / 0.6);
+  }
+
+  /* Bottom tab bar. */
+  .mobile-tabbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    align-items: stretch;
+    height: calc(4rem + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    background: hsl(var(--background) / 0.9);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-top: 1px solid hsl(var(--border) / 0.6);
+  }
+
+  /* Touch targets shouldn't flash a highlight or be selectable like text. */
+  .tap-none {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    user-select: none;
+  }
 }
 
-/* Fixed mobile header sits under the status bar in standalone mode. */
-.mobile-header {
-  padding-top: calc(0.75rem + env(safe-area-inset-top));
+/* App-like feel on touch devices: no rubber-band chaining, no text cursor on
+   chrome, momentum scrolling, and no accidental double-tap zoom. */
+@media (max-width: 767px) {
+  html,
+  body {
+    overscroll-behavior-y: none;
+  }
+
+  body {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Text the user actually reads stays selectable; the shell does not. */
+  .mobile-appbar,
+  .mobile-tabbar,
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+
+  /* Inputs must never zoom the viewport on focus — that is the single biggest
+     tell that something is a website. iOS zooms anything under 16px. */
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
 }
 
 /* Custom Scrollbar for a cleaner look */
