@@ -12,6 +12,7 @@ import EntryEditor from "@/pages/EntryEditor";
 import Goals from "@/pages/Goals";
 import GoalDetails from "@/pages/GoalDetails";
 import Todos from "@/pages/Todos";
+import Roadmap from "@/pages/Roadmap";
 import NotFound from "@/pages/not-found";
 
 function ProtectedRoute({ component: Component }: { component: React.ComponentType }) {
@@ -27,6 +28,7 @@ function Router() {
       <Route path="/goals" component={Goals} />
       <Route path="/goals/:id" component={GoalDetails} />
       <Route path="/todos" component={Todos} />
+      <Route path="/roadmap" component={Roadmap} />
       <Route component={NotFound} />
     </Switch>
   );

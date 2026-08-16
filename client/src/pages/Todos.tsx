@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, Plus, Trash2, Calendar as CalendarIcon, Flag, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -27,8 +27,20 @@ export default function Todos() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   const dateString = format(selectedDate, 'yyyy-MM-dd');
-  const { data: todos, isLoading } = useTodos(dateString);
+  const { data: rawTodos, isLoading } = useTodos(dateString);
   const { data: goals } = useGoals();
+
+  // Scheduled tasks carry a "5:30am–6:30am · …" prefix, so read the day
+  // top to bottom. Anything without a time sorts to the bottom.
+  const todos = useMemo(() => {
+    const startMinutes = (title: string) => {
+      const match = /^(\d{1,2}):(\d{2})(am|pm)/i.exec(title);
+      if (!match) return Infinity;
+      const hour = Number(match[1]) % 12 + (match[3].toLowerCase() === "pm" ? 12 : 0);
+      return hour * 60 + Number(match[2]);
+    };
+    return [...(rawTodos ?? [])].sort((a, b) => startMinutes(a.title) - startMinutes(b.title));
+  }, [rawTodos]);
 
   const createTodo = useCreateTodo();
   const updateTodo = useUpdateTodo();

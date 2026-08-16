@@ -4,6 +4,7 @@ import {
   BookOpen,
   Target,
   CheckSquare,
+  Rocket,
   Plus,
   Home,
   Menu,
@@ -22,6 +23,7 @@ export function Sidebar() {
     { href: "/diary", label: "Entries", icon: BookOpen },
     { href: "/goals", label: "Goals", icon: Target },
     { href: "/todos", label: "Tasks", icon: CheckSquare },
+    { href: "/roadmap", label: "Roadmap", icon: Rocket },
   ];
 
   const NavContent = () => (

@@ -6,6 +6,7 @@ import { z } from "zod";
 import { diaryEntries, goals, todos } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
+import { getRoadmapStatus, syncRoadmap } from "./roadmap";
 
 async function seedDatabase() {
   // Check if we have any users, if not, we can't really seed data that belongs to a user easily
@@ -134,6 +135,17 @@ export async function registerRoutes(
     if (!existing) return res.status(404).json({ message: "Goal not found" });
     await storage.deleteGoal(id);
     res.status(204).send();
+  });
+
+  // Roadmap Routes (100-day internship plan)
+  app.get(api.roadmap.get.path, async (_req, res) => {
+    const userId = "bansi";
+    res.json(await getRoadmapStatus(userId));
+  });
+
+  app.post(api.roadmap.sync.path, async (_req, res) => {
+    const userId = "bansi";
+    res.json(await syncRoadmap(userId));
   });
 
   // Todos Routes
