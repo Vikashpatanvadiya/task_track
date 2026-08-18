@@ -4,11 +4,11 @@ import { buildRoadmap, todoTimestamp, ROADMAP_GOAL } from "../shared/roadmap";
 import { and, eq, inArray } from "drizzle-orm";
 
 /**
- * Generated tasks always open with a time range, e.g. "5:30am–6:30am · …".
- * The 24-hour form is matched too so plans written by older versions of this
- * file still get cleaned up. A task typed in by hand won't look like this.
+ * Generated tasks open with "Day 12 · ". The old time-range form is matched
+ * too, so plans written by earlier versions of this file can still be cleaned
+ * up. A task typed in by hand won't look like either.
  */
-const SCHEDULED = /^\d{1,2}:\d{2}(am|pm)?–\d{1,2}:\d{2}(am|pm)? · /;
+const SCHEDULED = /^(Day \d{1,3} · |\d{1,2}:\d{2}(am|pm)?–\d{1,2}:\d{2}(am|pm)? · )/;
 
 /** Finds the roadmap goal for a user, creating it on first sync. */
 async function findGoal(userId: string) {

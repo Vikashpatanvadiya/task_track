@@ -10,7 +10,7 @@ import {
   type Goal,
   type Todo,
 } from "../shared/schema";
-import { eq, and, desc, gte, lte } from "drizzle-orm";
+import { eq, and, asc, desc, gte, lte } from "drizzle-orm";
 import { dayBounds } from "../shared/date";
 
 export interface IStorage {
@@ -106,7 +106,8 @@ export class DatabaseStorage implements IStorage {
             lte(todos.date, end)
           )
         )
-        .orderBy(desc(todos.createdAt));
+        // Oldest first, so a day reads in the order its tasks were added.
+        .orderBy(asc(todos.id));
     }
     
     // If no date provided, return all todos

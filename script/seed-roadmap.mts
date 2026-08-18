@@ -1,5 +1,5 @@
 /**
- * Seeds the 100-day internship roadmap into the database.
+ * Seeds the 79-day web dev roadmap into the database.
  *
  *   npx tsx script/seed-roadmap.mts --dry-run   # print the plan, write nothing
  *   npx tsx script/seed-roadmap.mts             # create the goal + all tasks
@@ -12,34 +12,22 @@
 import "dotenv/config";
 import { pool } from "../server/db";
 import { syncRoadmap } from "../server/roadmap";
-import { buildRoadmap, ROADMAP_START } from "../shared/roadmap";
+import { buildRoadmap, ROADMAP_START, totalRuntime } from "../shared/roadmap";
 
 const USER_ID = "bansi";
 const dryRun = process.argv.includes("--dry-run");
 
 function summarise() {
   const plan = buildRoadmap();
-  const hours: Record<string, number> = {};
-  let tasks = 0;
+  const tasks = plan.reduce((n, d) => n + d.tasks.length, 0);
 
-  for (const day of plan) {
-    tasks += day.tasks.length;
-    for (const t of day.tasks) hours[t.kind] = (hours[t.kind] ?? 0) + t.hours;
-  }
-
-  console.log(`Plan: ${plan.length} days, ${plan[0].date} → ${plan[plan.length - 1].date}`);
-  console.log(`Tasks: ${tasks}`);
   console.log(
-    "Hours: " +
-      Object.entries(hours)
-        .sort((a, b) => b[1] - a[1])
-        .map(([k, v]) => `${k} ${v}`)
-        .join(", ")
+    `Plan: ${plan.length} days, ${plan[0].date} → ${plan[plan.length - 1].date}, ` +
+      `${tasks} tasks, ${totalRuntime()} of video.`
   );
 
-  for (const day of [plan[0], plan[2], plan[5], plan[6], plan[99]]) {
-    console.log(`\n── Day ${day.day} · ${day.weekday} ${day.date} · week ${day.week} · ${day.theme}`);
-    console.log(`   classes ${day.classHours} h → coding ${day.codingHours} h`);
+  for (const day of [plan[0], plan[1], plan[plan.length - 1]]) {
+    console.log(`\n── Day ${day.day} · ${day.weekday} ${day.date} · ${day.section.name}`);
     for (const t of day.tasks) console.log(`   ${t.priority.padEnd(6)} ${t.title}`);
   }
 }
