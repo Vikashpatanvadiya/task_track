@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { BookOpen, CheckSquare, Rocket, type LucideIcon } from "lucide-react";
+import { BookOpen, PlayCircle, Rocket, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const STORAGE_KEY = "bansi.onboarded.v1";
+const STORAGE_KEY = "bansi.onboarded.v2";
 
 interface Slide {
   icon: LucideIcon;
@@ -15,18 +15,18 @@ interface Slide {
 const SLIDES: Slide[] = [
   {
     icon: Rocket,
-    title: "One goal at a time",
-    body: "A paid internship in 100 days is the goal. Every task in here ladders up to it, so you always know why you are doing the thing in front of you.",
+    title: "Two courses, side by side",
+    body: "Web Dev and Web 3 run in parallel from day one. Each has its own goal, and every task in here belongs to one of them — so you always know what a day is for.",
   },
   {
-    icon: CheckSquare,
-    title: "Your day, already planned",
-    body: "Each morning opens to a short list with times on it — workout, lecture, build, DSA. Tick them off as you go. Add your own whenever something comes up.",
+    icon: PlayCircle,
+    title: "Watch, then build",
+    body: "One lecture a day. The next day you build something with it, before the one after that arrives. That rhythm is the whole plan.",
   },
   {
     icon: BookOpen,
     title: "Write it down",
-    body: "Entries keep the record: what you shipped, what broke, how it felt. In three months it is the proof you can point an interviewer at.",
+    body: "Entries keep the record: what you shipped, what broke, how it felt. Months from now it is the proof you can point an interviewer at.",
   },
 ];
 

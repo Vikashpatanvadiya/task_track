@@ -36,7 +36,7 @@ export function useSyncRoadmap() {
       toast({
         title: changed ? "Roadmap synced" : "Already up to date",
         description: changed
-          ? `${result.inserted} tasks added, ${result.removed} removed.`
+          ? `${result.inserted} tasks added across both tracks.`
           : `All ${result.totalTasks} tasks are already there.`,
       });
     },

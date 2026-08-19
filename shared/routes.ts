@@ -112,27 +112,33 @@ export const api = {
     },
   },
   roadmap: {
-    /** The generated 100-day plan plus how far the sync has got. */
+    /** How much of each track has made it into the task list. */
     get: {
       method: 'GET' as const,
       path: '/api/roadmap' as const,
       responses: {
         200: z.object({
-          goalId: z.number().nullable(),
-          syncedTasks: z.number(),
-          totalTasks: z.number(),
-          completedTasks: z.number(),
+          tracks: z.array(
+            z.object({
+              trackId: z.string(),
+              name: z.string(),
+              goalId: z.number().nullable(),
+              syncedTasks: z.number(),
+              totalTasks: z.number(),
+              completedTasks: z.number(),
+            })
+          ),
         }),
       },
     },
-    /** Creates the goal if needed and adds any task not already present. */
+    /** Creates the goals if needed and adds any task not already present. */
     sync: {
       method: 'POST' as const,
       path: '/api/roadmap/sync' as const,
       input: z.object({}).optional(),
       responses: {
         200: z.object({
-          goalId: z.number(),
+          goalIds: z.array(z.number()),
           inserted: z.number(),
           removed: z.number(),
           skipped: z.number(),
